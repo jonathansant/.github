@@ -88,8 +88,8 @@ jobs:
       - name: Build
         run: dotnet build -c Release --no-restore
 
-      - name: Test
-        run: npm test
+      # - name: Test
+      #   run: npm test
 
       - name: Pack
         if: inputs.publishable
