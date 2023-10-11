@@ -66,15 +66,15 @@ jobs:
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
           restore-keys: |
             ${{ runner.os }}-nuget
+      
+      - name: Retrieve Build Sln
+        run: |
+          buildSln=buildSln=$(ls | grep .*-build\.sln$)
+          echo "BuildSln=$buildSln" >> $GITHUB_ENV
+          echo $GITHUB_ENV
 
       - name: Restore dependencies
-        run: |
-          buildSln=$(ls | grep .*-build\.sln$) #store in env var to use later
-          if [ buildSln != "" ]; then
-            dotnet restore $buildSln
-          else
-            dotnet restore
-          fi
+        run: dotnet restore $buildSln
 
       - name: Build version
         id: version-builder
@@ -92,26 +92,16 @@ jobs:
           echo "ASSEMBLY_VERSION=${{ steps.version-builder.outputs.nonSemverVersion }}" >> $GITHUB_ENV
 
       - name: Build
-        run: |
-          buildSln=$(ls | grep .*-build\.sln$)
-          if [ buildSln != "" ]; then            
+        run: |          
             dotnet build $buildSln -c Release
-          else
-            dotnet build -c Release --no-restore
-          fi      
+            # dotnet build -c Release --no-restore
 
       # - name: Test
       #   run: npm test
 
       - name: Pack
         if: inputs.publishable
-        run: |
-          buildSln=$(ls | grep .*-build\.sln$)
-          if [ buildSln != "" ]; then      
-            dotnet pack $buildSln -p:PackageVersion=$VERSION -p:AssemblyVersion=$ASSEMBLY_VERSION -o ./artifacts -c release --include-symbols -p:SymbolPackageFormat=snupkg --no-build --no-restore
-          else               
-            dotnet pack -p:PackageVersion=$VERSION -p:AssemblyVersion=$ASSEMBLY_VERSION -o ./artifacts -c release --include-symbols -p:SymbolPackageFormat=snupkg --no-build --no-restore
-          fi
+        run: dotnet pack $buildSln -p:PackageVersion=$VERSION -p:AssemblyVersion=$ASSEMBLY_VERSION -o ./artifacts -c release --include-symbols -p:SymbolPackageFormat=snupkg --no-build --no-restore
 
       - name: 'Upload Artifact'
         uses: actions/upload-artifact@v3
