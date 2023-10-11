@@ -69,7 +69,7 @@ jobs:
       
       - name: Retrieve Build Sln
         run: |
-          buildSln=buildSln=$(ls | grep .*-build\.sln$)
+          buildSln=$(ls | grep .*-build\.sln$)
           echo "BuildSln=$buildSln" >> $GITHUB_ENV
           echo $GITHUB_ENV
 
