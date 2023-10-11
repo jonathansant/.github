@@ -69,7 +69,7 @@ jobs:
 
       - name: Restore dependencies
         run: |
-          buildSln=$(ls | grep .*-build\.sln$)
+          buildSln=$(ls | grep .*-build\.sln$) #store in env var to use later
           if [ buildSln != "" ]; then
             dotnet restore $buildSln;
           else
@@ -92,7 +92,13 @@ jobs:
           echo "ASSEMBLY_VERSION=${{ steps.version-builder.outputs.nonSemverVersion }}" >> $GITHUB_ENV
 
       - name: Build
-        run: dotnet build -c Release --no-restore
+        run: |
+          buildSln=$(ls | grep .*-build\.sln$)
+          if [ buildSln != "" ]; then            
+            dotnet build $buildSln -c Release --no-restore
+          else
+            dotnet build -c Release --no-restore;
+          fi      
 
       # - name: Test
       #   run: npm test
