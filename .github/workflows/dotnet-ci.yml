@@ -70,11 +70,11 @@ jobs:
       - name: Retrieve Build Sln
         run: |
           buildSln=$(ls | grep .*-build\.sln$)
-          echo "BuildSln=$buildSln" >> $GITHUB_ENV
+          echo "BUILD_SLN=$buildSln" >> $GITHUB_ENV
           echo $buildSln
 
       - name: Restore dependencies
-        run: dotnet restore $BuildSln
+        run: dotnet restore $BUILD_SLN
 
       - name: Build version
         id: version-builder
@@ -93,7 +93,7 @@ jobs:
 
       - name: Build
         run: |          
-            dotnet build $BuildSln -c Release
+            dotnet build $BUILD_SLN -c Release
             # dotnet build -c Release --no-restore
 
       # - name: Test
@@ -101,7 +101,7 @@ jobs:
 
       - name: Pack
         if: inputs.publishable
-        run: dotnet pack $BuildSln -p:PackageVersion=$VERSION -p:AssemblyVersion=$ASSEMBLY_VERSION -o ./artifacts -c release --include-symbols -p:SymbolPackageFormat=snupkg --no-build --no-restore
+        run: dotnet pack $BUILD_SLN -p:PackageVersion=$VERSION -p:AssemblyVersion=$ASSEMBLY_VERSION -o ./artifacts -c release --include-symbols -p:SymbolPackageFormat=snupkg --no-build --no-restore
 
       - name: 'Upload Artifact'
         uses: actions/upload-artifact@v3
