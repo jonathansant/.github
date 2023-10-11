@@ -97,7 +97,7 @@ jobs:
           if [ buildSln != "" ]; then            
             dotnet build $buildSln -c Release --no-restore
           else
-            dotnet build -c Release --no-restore;
+            dotnet build -c Release --no-restore
           fi      
 
       # - name: Test
