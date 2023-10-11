@@ -73,8 +73,8 @@ jobs:
           echo "BUILD_SLN=$buildSln" >> $GITHUB_ENV
           echo $buildSln
 
-      - name: Restore dependencies
-        run: dotnet restore $BUILD_SLN
+      # - name: Restore dependencies
+      #   run: dotnet restore $BUILD_SLN
 
       - name: Build version
         id: version-builder
