@@ -71,9 +71,9 @@ jobs:
         run: |
           buildSln=$(ls | grep .*-build\.sln$) #store in env var to use later
           if [ buildSln != "" ]; then
-            dotnet restore $buildSln;
+            dotnet restore $buildSln
           else
-            dotnet restore;
+            dotnet restore
           fi
 
       - name: Build version
