@@ -105,7 +105,13 @@ jobs:
 
       - name: Pack
         if: inputs.publishable
-        run: dotnet pack -p:PackageVersion=$VERSION -p:AssemblyVersion=$ASSEMBLY_VERSION -o ./artifacts -c release --include-symbols -p:SymbolPackageFormat=snupkg --no-build --no-restore
+        run: |
+          buildSln=$(ls | grep .*-build\.sln$)
+          if [ buildSln != "" ]; then      
+            dotnet pack $buildSln -p:PackageVersion=$VERSION -p:AssemblyVersion=$ASSEMBLY_VERSION -o ./artifacts -c release --include-symbols -p:SymbolPackageFormat=snupkg --no-build --no-restore
+          else               
+            dotnet pack -p:PackageVersion=$VERSION -p:AssemblyVersion=$ASSEMBLY_VERSION -o ./artifacts -c release --include-symbols -p:SymbolPackageFormat=snupkg --no-build --no-restore
+          fi
 
       - name: 'Upload Artifact'
         uses: actions/upload-artifact@v3
