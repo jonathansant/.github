@@ -95,7 +95,7 @@ jobs:
         run: |
           buildSln=$(ls | grep .*-build\.sln$)
           if [ buildSln != "" ]; then            
-            dotnet build $buildSln -c Release --no-restore
+            dotnet build $buildSln -c Release
           else
             dotnet build -c Release --no-restore
           fi      
