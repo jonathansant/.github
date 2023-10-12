@@ -71,6 +71,13 @@ jobs:
         continue-on-error: true
         run: |
           buildSln=$(ls | grep .*-build\.sln$)
+
+          if [ $? -eq 0 ]; then
+            echo "Found a build solution file"
+          else
+            echo "No build solution file found"
+          fi
+
           echo "BUILD_SLN=$buildSln" >> $GITHUB_ENV
           echo $buildSln
 
