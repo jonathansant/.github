@@ -68,7 +68,6 @@ jobs:
             ${{ runner.os }}-nuget
       
       - name: Retrieve Build Sln
-        continue-on-error: true
         run: |
           buildSln=$(ls | grep .*-build\.sln$) || echo ""
 
