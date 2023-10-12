@@ -70,7 +70,7 @@ jobs:
       - name: Retrieve Build Sln
         run: |
           buildSln=$(ls | grep .*-build\.sln$)
-          echo "BUILD_SLN=$buildSln" >> $GITHUB_ENV
+          # echo "BUILD_SLN=$buildSln" >> $GITHUB_ENV
           echo $buildSln
 
       # - name: Restore dependencies
