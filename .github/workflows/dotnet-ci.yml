@@ -70,7 +70,7 @@ jobs:
       - name: Retrieve Build Sln
         continue-on-error: true
         run: |
-          buildSln=$(ls | grep .*-build\.sln$)
+          buildSln=$(ls | grep .*-build\.sln$ | "")
           echo "BUILD_SLN=$buildSln" >> $GITHUB_ENV
           echo $buildSln
 
